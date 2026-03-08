@@ -10,6 +10,7 @@ import { JobCard } from "./job-card";
 import { AppliedJobCard } from "./Applied-job-card";
 import { InterviewingJobCard } from "./Interviewing-job-card";
 import { OfferJobCard } from "./Offer-job-card";
+import { AIInfoCard, ReminderCard } from "./ai-info-card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Share2, Plus, SlidersHorizontal, CirclePlus } from "lucide-react";
@@ -437,6 +438,20 @@ export const JobTracking = () => {
                   <button className='flex items-center justify-center gap-2 w-full rounded-md border border-[#2E2E2E] text-muted-foreground hover:text-foreground hover:bg-muted text-xs py-2 transition-colors mb-1'>
                     Add job manually <CirclePlus size={15} />
                   </button>
+
+                  {/* Reminder Card for applied column */}
+                  {col.id === "applied" && <ReminderCard />}
+
+                  {/* AI Info Card for interested and interviewing columns */}
+                  {(col.id === "interested" || col.id === "interviewing") && (
+                    <AIInfoCard
+                      message={
+                        col.id === "interested"
+                          ? `Seems like out of ${(columns[col.id] ?? []).length} jobs you're interested in, HTML and CSS is mostly required but missing in your resume.`
+                          : `Across your ${(columns[col.id] ?? []).length} interviews, system design and SQL case studies appear most frequently — consider focused prep.`
+                      }
+                    />
+                  )}
 
                   {/* Cards */}
                   {(columns[col.id] ?? []).map((task, index) => (
