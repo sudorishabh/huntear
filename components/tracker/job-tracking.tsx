@@ -1,50 +1,196 @@
 "use client";
 import { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "@hello-pangea/dnd";
 import { JobCard } from "./job-card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import {
-  Bell,
-  Share2,
-  Plus,
-  SlidersHorizontal,
-  CirclePlus,
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Share2, Plus, SlidersHorizontal, CirclePlus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "../ui/button";
 
 const COLUMNS = [
-  { id: "interested", label: "Interested", count: 2 },
-  { id: "applied", label: "Applied", count: 4 },
-  { id: "interviewing", label: "Interviewing", count: 2 },
-  { id: "offers", label: "Offers", count: 2 },
+  { id: "interested", label: "Interested" },
+  { id: "applied", label: "Applied" },
+  { id: "interviewing", label: "Interviewing" },
+  { id: "offers", label: "Offers" },
 ];
 
-const initialData: Record<string, { id: string }[]> = {
-  interested: [{ id: "task-1" }, { id: "task-2" }],
-  applied: [
-    { id: "task-3" },
-    { id: "task-4" },
-    { id: "task-5" },
-    { id: "task-6" },
+type DemoJobCard = {
+  id: string;
+  addedLabel: string;
+  companyLogo: string;
+  companyName: string;
+  workType: string;
+  jobTitle: string;
+  postedAgo: string;
+  matchPercent: number;
+  missingKeywords: string[];
+};
+
+const initialData: Record<string, DemoJobCard[]> = {
+  interested: [
+    {
+      id: "task-1",
+      addedLabel: "Added today",
+      companyLogo:
+        "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=120&q=80",
+      companyName: "Notion",
+      workType: "Remote",
+      jobTitle: "Product Data Analyst",
+      postedAgo: "3h",
+      matchPercent: 78,
+      missingKeywords: ["dbt", "Looker", "A/B testing"],
+    },
+    {
+      id: "task-2",
+      addedLabel: "Added today",
+      companyLogo:
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=120&q=80",
+      companyName: "Canva",
+      workType: "Hybrid",
+      jobTitle: "Data Scientist II",
+      postedAgo: "6h",
+      matchPercent: 66,
+      missingKeywords: ["Bayesian stats", "Airflow", "NLP"],
+    },
+    {
+      id: "task-3",
+      addedLabel: "Added yesterday",
+      companyLogo:
+        "https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?auto=format&fit=crop&w=120&q=80",
+      companyName: "Stripe",
+      workType: "Remote",
+      jobTitle: "Risk Analytics Specialist",
+      postedAgo: "1d",
+      matchPercent: 71,
+      missingKeywords: ["Fraud models", "PySpark", "Kafka"],
+    },
   ],
-  interviewing: [{ id: "task-7" }, { id: "task-8" }],
-  offers: [{ id: "task-9" }, { id: "task-10" }],
+  applied: [
+    {
+      id: "task-4",
+      addedLabel: "Applied today",
+      companyLogo:
+        "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=120&q=80",
+      companyName: "Figma",
+      workType: "Hybrid / Remote",
+      jobTitle: "Growth Data Analyst",
+      postedAgo: "4h",
+      matchPercent: 83,
+      missingKeywords: ["Amplitude", "Mixpanel", "Experiment design"],
+    },
+    {
+      id: "task-5",
+      addedLabel: "Applied yesterday",
+      companyLogo:
+        "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=120&q=80",
+      companyName: "Shopify",
+      workType: "Remote",
+      jobTitle: "Senior BI Analyst",
+      postedAgo: "2d",
+      matchPercent: 74,
+      missingKeywords: ["Snowflake", "Finance metrics", "GA4"],
+    },
+    {
+      id: "task-6",
+      addedLabel: "Applied 2d ago",
+      companyLogo:
+        "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=120&q=80",
+      companyName: "Atlassian",
+      workType: "Hybrid",
+      jobTitle: "ML Engineer",
+      postedAgo: "3d",
+      matchPercent: 69,
+      missingKeywords: ["MLOps", "Docker", "Kubernetes"],
+    },
+    {
+      id: "task-7",
+      addedLabel: "Applied 3d ago",
+      companyLogo:
+        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=120&q=80",
+      companyName: "Razorpay",
+      workType: "On-site",
+      jobTitle: "Analytics Engineer",
+      postedAgo: "4d",
+      matchPercent: 80,
+      missingKeywords: ["Great Expectations", "Terraform", "Datadog"],
+    },
+  ],
+  interviewing: [
+    {
+      id: "task-8",
+      addedLabel: "Interview tomorrow",
+      companyLogo:
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=120&q=80",
+      companyName: "Airbnb",
+      workType: "Remote",
+      jobTitle: "Marketplace Data Scientist",
+      postedAgo: "5d",
+      matchPercent: 88,
+      missingKeywords: ["Causal inference", "Geo analysis", "ETL"],
+    },
+    {
+      id: "task-9",
+      addedLabel: "Interview this week",
+      companyLogo:
+        "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=120&q=80",
+      companyName: "NVIDIA",
+      workType: "Hybrid",
+      jobTitle: "Applied ML Scientist",
+      postedAgo: "1w",
+      matchPercent: 76,
+      missingKeywords: ["CUDA", "LLM eval", "Distributed training"],
+    },
+    {
+      id: "task-10",
+      addedLabel: "Interview this week",
+      companyLogo:
+        "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=120&q=80",
+      companyName: "Zomato",
+      workType: "On-site",
+      jobTitle: "Decision Scientist",
+      postedAgo: "1w",
+      matchPercent: 73,
+      missingKeywords: ["Pricing models", "Forecasting", "BigQuery"],
+    },
+  ],
+  offers: [
+    {
+      id: "task-11",
+      addedLabel: "Offer received",
+      companyLogo:
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=120&q=80",
+      companyName: "Microsoft",
+      workType: "Hybrid",
+      jobTitle: "Data Analyst",
+      postedAgo: "2w",
+      matchPercent: 92,
+      missingKeywords: ["Power BI", "Azure Synapse", "DAX"],
+    },
+    {
+      id: "task-12",
+      addedLabel: "Offer negotiation",
+      companyLogo:
+        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=120&q=80",
+      companyName: "Adobe",
+      workType: "Remote",
+      jobTitle: "Senior Product Analyst",
+      postedAgo: "2w",
+      matchPercent: 89,
+      missingKeywords: ["Retention models", "Segment", "Roadmap analytics"],
+    },
+  ],
 };
 
 export const JobTracking = () => {
   const [columns, setColumns] = useState(initialData);
-  const [activeTab, setActiveTab] = useState<"active" | "archive">("active");
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) return;
 
@@ -191,7 +337,7 @@ export const JobTracking = () => {
 
       {/* ── Kanban board ── */}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className='grid grid-cols-4 gap-0 flex-1 overflow-x-auto px- pt-4'>
+        <div className='grid grid-cols-4 gap-0 flex-1 overflow-x-auto px-2 pt-4'>
           {COLUMNS.map((col) => (
             <Droppable
               droppableId={col.id}
@@ -207,12 +353,12 @@ export const JobTracking = () => {
                     <span
                       className='text-xs 
                     bg-gray-800 rounded size-4.5 text-muted-foreground font-medium flex items-center justify-center'>
-                      {col.count}
+                      {(columns[col.id] ?? []).length}
                     </span>
                   </div>
 
                   {/* Add manually button */}
-                  <button className='flex items-center justify-center gap-2 w-full rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted text-sm py-2 transition-colors mb-1'>
+                  <button className='flex items-center justify-center gap-2 w-full rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted text-xs py-2 transition-colors mb-1'>
                     Add job manually <CirclePlus size={15} />
                   </button>
 
@@ -228,7 +374,7 @@ export const JobTracking = () => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           className='cursor-grab mb-1.5'>
-                          <JobCard />
+                          <JobCard {...task} />
                         </div>
                       )}
                     </Draggable>
