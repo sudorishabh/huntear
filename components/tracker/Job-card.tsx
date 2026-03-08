@@ -29,7 +29,7 @@ export const JobCard = ({
   ],
 }: JobCardProps) => {
   return (
-    <div className='bg-card text-card-foreground rounded-2xl p-4 flex flex-col gap-4 w-72 ring-1 ring-foreground/10'>
+    <div className='bg-card text-card-foreground rounded-2xl p-4 flex flex-col gap-4 ring-1 ring-foreground/10'>
       {/* Top row */}
       <div className='flex items-center justify-between'>
         <span className='text-xs font-medium bg-muted text-muted-foreground px-3 py-1 rounded-full'>

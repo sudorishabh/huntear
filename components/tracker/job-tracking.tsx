@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { JobCard } from "./Job-card";
+import { JobCard } from "./job-card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -11,6 +11,15 @@ import {
   SlidersHorizontal,
   CirclePlus,
 } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "../ui/button";
 
 const COLUMNS = [
   { id: "interested", label: "Interested", count: 2 },
@@ -61,36 +70,75 @@ export const JobTracking = () => {
   return (
     <div className='flex flex-col h-full'>
       {/* ── Top search bar ── */}
-      <div className='flex items-center justify-between px-6 py-3 border-b border-border'>
-        <div className='w-72'>
-          <Input
-            placeholder='Type/search...'
-            className='rounded-full h-9 bg-muted border-0 px-4 text-sm'
-          />
-        </div>
-        <div className='flex items-center gap-3'>
-          <button className='text-muted-foreground hover:text-foreground transition-colors'>
-            <Bell size={20} />
-          </button>
-          <div className='w-9 h-9 rounded-full bg-muted overflow-hidden ring-2 ring-border'>
-            <img
-              src='https://i.pravatar.cc/36'
-              alt='avatar'
-              className='w-full h-full object-cover'
-            />
-          </div>
-        </div>
-      </div>
+      {/* <div className='flex items-center justify-between px-6 py-3 border-b border-border'></div> */}
 
       {/* ── Page title ── */}
-      <div className='px-6 pt-6 pb-4'>
-        <h1 className='text-3xl font-bold tracking-tight'>My Workplace</h1>
-      </div>
 
       {/* ── Tabs + Action buttons ── */}
       <div className='flex items-center justify-between px-6 pb-4'>
         {/* Tabs */}
         <div className='flex items-center gap-2'>
+          <Tabs
+            defaultValue='overview'
+            className='w-60'>
+            <TabsList className='bg-transparent flex gap-2'>
+              <TabsTrigger
+                value='overview'
+                className='p-4 border-0 bg-[#191919] text-xs text-[#CFCFCF]'>
+                Overview
+                <span className='bg-gray-800 rounded-full size-5 flex items-center justify-center border text-[11px]'>
+                  12
+                </span>
+              </TabsTrigger>
+              <TabsTrigger
+                value='analytics'
+                className='p-4 border-0 bg-[#191919] text-xs text-[#CFCFCF]'>
+                Analytics
+                <span className='bg-gray-800 rounded-full size-5 flex items-center justify-center border text-[11px]'>
+                  3
+                </span>
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value='overview'>
+              {/* <Card>
+              <CardHeader>
+                <CardTitle>Overview</CardTitle>
+                <CardDescription>
+                  View your key metrics and recent project activity. Track
+                  progress across all your active projects.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className='text-sm text-muted-foreground'>
+                You have 12 active projects and 3 pending tasks.
+              </CardContent>
+            </Card> */}
+            </TabsContent>
+            <TabsContent value='analytics'>
+              {/* <Card>
+              <CardHeader>
+                <CardTitle>Analytics</CardTitle>
+                <CardDescription>
+                  Track performance and user engagement metrics. Monitor trends
+                  and identify growth opportunities.
+                  </CardDescription>
+                  </CardHeader>
+                  <CardContent className='text-sm text-muted-foreground'>
+                  Page views are up 25% compared to last month.
+                  </CardContent>
+            </Card> */}
+            </TabsContent>
+          </Tabs>
+          <div className='w-48 flex items-center gap-2'>
+            <Input
+              placeholder='Type/search...'
+              className='h-9 border px-4 text-sm'
+            />
+            <button className='p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors'>
+              <SlidersHorizontal size={16} />
+            </button>
+          </div>
+        </div>
+        {/* <div className='flex items-center gap-2'>
           <button
             onClick={() => setActiveTab("active")}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors
@@ -112,11 +160,11 @@ export const JobTracking = () => {
             Archive{" "}
             <span className='text-muted-foreground font-normal'>14</span>
           </button>
-        </div>
+        </div> */}
 
         {/* Action buttons */}
-        <div className='flex items-center gap-2'>
-          <button className='flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border border-border text-foreground hover:bg-muted transition-colors'>
+        <div className='flex items-center gap-2 w-60'>
+          {/* <button className='flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border border-border text-foreground hover:bg-muted transition-colors'>
             Export <Share2 size={14} />
           </button>
           <button className='flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-cyan-500 hover:bg-cyan-400 text-black transition-colors'>
@@ -125,10 +173,17 @@ export const JobTracking = () => {
               size={15}
               strokeWidth={2.5}
             />
-          </button>
-          <button className='p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors'>
-            <SlidersHorizontal size={16} />
-          </button>
+          </button> */}
+          <Button variant='outline'>
+            Export <Share2 size={14} />
+          </Button>
+          <Button className=' bg-blue-500 hover:bg-blue-400 text-white transition-colors'>
+            Add Job{" "}
+            <Plus
+              size={15}
+              strokeWidth={2.5}
+            />
+          </Button>
         </div>
       </div>
 
@@ -136,7 +191,7 @@ export const JobTracking = () => {
 
       {/* ── Kanban board ── */}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className='grid grid-cols-4 gap-0 flex-1 overflow-x-auto divide-x divide-border px-2 pt-4'>
+        <div className='grid grid-cols-4 gap-0 flex-1 overflow-x-auto px- pt-4'>
           {COLUMNS.map((col) => (
             <Droppable
               droppableId={col.id}
@@ -145,11 +200,13 @@ export const JobTracking = () => {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className='flex flex-col gap-3 px-4 min-h-[400px]'>
+                  className=' flex flex-col gap-3 px-2.5 min-h-100'>
                   {/* Column header */}
                   <div className='flex items-center gap-2 mb-1'>
-                    <h2 className='font-semibold text-sm'>{col.label}</h2>
-                    <span className='text-xs text-muted-foreground font-medium'>
+                    <h2 className='text-sm'>{col.label}</h2>
+                    <span
+                      className='text-xs 
+                    bg-gray-800 rounded size-4.5 text-muted-foreground font-medium flex items-center justify-center'>
                       {col.count}
                     </span>
                   </div>
@@ -170,7 +227,7 @@ export const JobTracking = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className='cursor-grab'>
+                          className='cursor-grab mb-1.5'>
                           <JobCard />
                         </div>
                       )}
