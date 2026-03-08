@@ -6,7 +6,7 @@ import {
   Draggable,
   type DropResult,
 } from "@hello-pangea/dnd";
-import { JobCard } from "./job-card";
+import { JobCard } from "./jobcard";
 import { AppliedJobCard } from "./Applied-job-card";
 import { InterviewingJobCard } from "./Interviewing-job-card";
 import { OfferJobCard } from "./Offer-job-card";
