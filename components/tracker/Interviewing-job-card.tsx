@@ -67,7 +67,10 @@ export const InterviewingJobCard = ({
           {interviewDate}
         </Badge>
         <button className='text-muted-foreground hover:text-foreground transition-colors'>
-          <MoreVertical className='text-gray-200' size={18} />
+          <MoreVertical
+            className='text-gray-200'
+            size={18}
+          />
         </button>
       </div>
 
@@ -88,14 +91,19 @@ export const InterviewingJobCard = ({
 
       {/* Job title & posted */}
       <div className='flex flex-col gap-0.5'>
-        <span className='text-[#FFFFFF] text-[15px] font-medium'>{jobTitle}</span>
+        <span className='text-[#FFFFFF] text-[15px] font-medium'>
+          {jobTitle}
+        </span>
         <span className='text-xs text-muted-foreground'>{postedAgo}</span>
       </div>
 
       {/* Resume file badge */}
       <div>
         <span className='inline-flex items-center gap-1.5 text-xs bg-transparent border border-[#383838] text-[#CECECE] px-3 py-1.5 rounded-full'>
-          <FileText size={12} className='shrink-0' />
+          <FileText
+            size={12}
+            className='shrink-0'
+          />
           {resumeFile}
         </span>
       </div>
@@ -106,7 +114,10 @@ export const InterviewingJobCard = ({
           {interviewRound}
         </span>
         <span className='flex items-center gap-1.5 text-xs text-[#8A8A8A]'>
-          <CornerDownRight size={12} className='shrink-0 text-[#555555]' />
+          <CornerDownRight
+            size={12}
+            className='shrink-0 text-[#555555]'
+          />
           {notes ?? "Write your notes"}
         </span>
       </div>
@@ -116,7 +127,8 @@ export const InterviewingJobCard = ({
         <span className='text-xs text-[#8A8A8A]'>
           Recent news about {companyName}
         </span>
-        <span className={`text-sm leading-snug ${sentimentColor[aiNewsSentiment]}`}>
+        <span
+          className={`text-sm leading-snug ${sentimentColor[aiNewsSentiment]}`}>
           {resolvedNews}
         </span>
       </div>

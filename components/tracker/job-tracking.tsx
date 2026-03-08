@@ -9,6 +9,7 @@ import {
 import { JobCard } from "./job-card";
 import { AppliedJobCard } from "./Applied-job-card";
 import { InterviewingJobCard } from "./Interviewing-job-card";
+import { OfferJobCard } from "./Offer-job-card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Share2, Plus, SlidersHorizontal, CirclePlus } from "lucide-react";
@@ -42,6 +43,13 @@ type DemoJobCard = {
   interviewDate?: string;
   interviewRound?: string;
   notes?: string;
+  // offers-column extras
+  offerDate?: string;
+  offerStatus?: string;
+  offerFile?: string;
+  annualCtc?: string;
+  estInHand?: string;
+  equity?: string;
 };
 
 const initialData: Record<string, DemoJobCard[]> = {
@@ -225,6 +233,13 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "2w",
       matchPercent: 92,
       missingKeywords: ["Power BI", "Azure Synapse", "DAX"],
+      offerDate: "20/02/2026",
+      offerStatus: "Negotiating",
+      location: "Hyderabad, India",
+      offerFile: "offer_microsoft.pdf",
+      annualCtc: "₹28,00,000",
+      estInHand: "₹1,75,000 / mo",
+      equity: "₹12L",
     },
     {
       id: "task-12",
@@ -237,6 +252,13 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "2w",
       matchPercent: 89,
       missingKeywords: ["Retention models", "Segment", "Roadmap analytics"],
+      offerDate: "05/03/2026",
+      offerStatus: "Accepted",
+      location: "Noida, India",
+      offerFile: "offer_adobe.pdf",
+      annualCtc: "₹22,00,000",
+      estInHand: "₹1,37,500 / mo",
+      equity: "₹8L",
     },
   ],
 };
@@ -453,6 +475,20 @@ export const JobTracking = () => {
                               notes={task.notes}
                               aiNews={task.aiNews}
                               aiNewsSentiment={task.aiNewsSentiment}
+                            />
+                          ) : col.id === "offers" ? (
+                            <OfferJobCard
+                              offerDate={task.offerDate}
+                              offerStatus={task.offerStatus}
+                              companyLogo={task.companyLogo}
+                              companyName={task.companyName}
+                              location={task.location}
+                              jobTitle={task.jobTitle}
+                              postedAgo={task.postedAgo}
+                              offerFile={task.offerFile}
+                              annualCtc={task.annualCtc}
+                              estInHand={task.estInHand}
+                              equity={task.equity}
                             />
                           ) : (
                             <JobCard {...task} />
