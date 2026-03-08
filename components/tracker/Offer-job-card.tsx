@@ -1,5 +1,5 @@
 import React from "react";
-import { FileText, DollarSign, HandCoins, Rocket } from "lucide-react";
+import { DollarSign, HandCoins, Rocket, File } from "lucide-react";
 import { Badge } from "../ui/badge";
 
 interface OfferJobCardProps {
@@ -34,7 +34,7 @@ export const OfferJobCard = ({
   offerFile = "offer.pdf",
   annualCtc = "₹18,00,000",
   estInHand = "₹1,12,500 / mo",
-  equity,
+  equity = "₹8L",
 }: OfferJobCardProps) => {
   const fallbackLogo =
     demoLogos[(companyName.length + jobTitle.length) % demoLogos.length];
@@ -49,7 +49,9 @@ export const OfferJobCard = ({
             {offerDate}
           </Badge>
         </div>
-        <span className='text-xs text-[#CECECE] font-medium'>{offerStatus}</span>
+        <span className='text-xs text-[#CECECE] font-medium'>
+          {offerStatus}
+        </span>
       </div>
 
       {/* Company info */}
@@ -69,14 +71,17 @@ export const OfferJobCard = ({
 
       {/* Job title & posted */}
       <div className='flex flex-col gap-0.5'>
-        <span className='text-[#FFFFFF] text-[15px] font-medium'>{jobTitle}</span>
+        <span className='text-[#FFFFFF] text-sm'>{jobTitle}</span>
         <span className='text-xs text-muted-foreground'>{postedAgo}</span>
       </div>
 
       {/* Offer file badge */}
       <div>
-        <span className='inline-flex items-center gap-1.5 text-xs bg-transparent border border-[#383838] text-[#CECECE] px-3 py-1.5 rounded-full'>
-          <FileText size={12} className='shrink-0' />
+        <span className='inline-flex items-center gap-1.5 text-xs bg-transparent border border-[#383838] text-[#CECECE] px-2 py-1 rounded-lg'>
+          <File
+            size={12}
+            className='shrink-0'
+          />
           {offerFile}
         </span>
       </div>
@@ -87,39 +92,48 @@ export const OfferJobCard = ({
         <div className='flex flex-col gap-2.5 flex-1'>
           <div className='flex flex-col gap-0.5'>
             <span className='flex items-center gap-1.5 text-xs text-[#8A8A8A]'>
-              <DollarSign size={12} className='shrink-0' />
+              <DollarSign
+                size={12}
+                className='shrink-0'
+              />
               Annual CTC
             </span>
-            <span className='text-[#FFFFFF] text-base font-semibold leading-tight'>
+            <span className='text-[#CECECE] text-sm leading-tight'>
               {annualCtc}
             </span>
           </div>
           <div className='flex flex-col gap-0.5'>
             <span className='flex items-center gap-1.5 text-xs text-[#8A8A8A]'>
-              <HandCoins size={12} className='shrink-0' />
+              <HandCoins
+                size={12}
+                className='shrink-0'
+              />
               Est. In-Hand
             </span>
-            <span className='text-[#CECECE] text-sm font-medium leading-tight'>
+            <span className='text-[#CECECE] text-sm leading-tight'>
               {estInHand}
             </span>
           </div>
         </div>
 
         {/* Equity box */}
-        {equity && (
-          <div className='flex flex-col items-center justify-center gap-1.5 bg-[#1E1E1E] rounded-xl px-4 py-3 min-w-27.5'>
-            <Rocket size={22} className='text-[#555555]' />
-            <span className='text-xs text-[#CECECE] font-medium whitespace-nowrap'>
-              + {equity} Equity
-            </span>
-          </div>
-        )}
+        <div className='flex flex-col items-center justify-center gap-1.5 bg-[#1E1E1E] rounded-xl px-4 py-3 min-w-27.5'>
+          <Rocket
+            size={22}
+            className='fill-[#616161]  text-[#616161] shrink-0'
+          />
+          <span className='text-xs text-[#8A8A8A] font-medium whitespace-nowrap'>
+            + {equity} Equity
+          </span>
+        </div>
       </div>
 
       {/* Clarify offer button */}
-      <button className='w-full rounded-lg border border-[#2E2E2E] text-[#CECECE] hover:bg-[#1E1E1E] hover:text-white text-sm font-medium py-2.5 transition-colors'>
-        Clarify offer
-      </button>
+      <div className='p-[1px] rounded-lg bg-gradient-to-br from-[#FCF8FF]/50 via-[#C2C2C2]/30 to-[#8A8A8A]/30'>
+        <button className='w-full rounded-lg bg-card text-[#CECECE] hover:bg-[#1E1E1E] hover:text-white text-xs py-2.5 transition-colors'>
+          Clarify offer
+        </button>
+      </div>
     </div>
   );
 };

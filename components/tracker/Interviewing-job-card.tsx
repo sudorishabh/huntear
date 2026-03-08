@@ -1,5 +1,5 @@
 import React from "react";
-import { MoreVertical, FileText, CornerDownRight } from "lucide-react";
+import { MoreVertical, FileText, CornerDownRight, File } from "lucide-react";
 import { Badge } from "../ui/badge";
 
 interface InterviewingJobCardProps {
@@ -63,6 +63,7 @@ export const InterviewingJobCard = ({
     <div className='bg-card text-card-foreground rounded-xl p-4 flex flex-col gap-4'>
       {/* Top row */}
       <div className='flex items-center justify-between'>
+        <span className='w-2 h-2 rounded-full bg-emerald-400 shrink-0' />
         <Badge className='bg-transparent border font-normal border-[#383838] text-[#CECECE] p-2.5 text-xs'>
           {interviewDate}
         </Badge>
@@ -91,16 +92,14 @@ export const InterviewingJobCard = ({
 
       {/* Job title & posted */}
       <div className='flex flex-col gap-0.5'>
-        <span className='text-[#FFFFFF] text-[15px] font-medium'>
-          {jobTitle}
-        </span>
+        <span className='text-[#FFFFFF] text-sm'>{jobTitle}</span>
         <span className='text-xs text-muted-foreground'>{postedAgo}</span>
       </div>
 
       {/* Resume file badge */}
       <div>
-        <span className='inline-flex items-center gap-1.5 text-xs bg-transparent border border-[#383838] text-[#CECECE] px-3 py-1.5 rounded-full'>
-          <FileText
+        <span className='inline-flex items-center gap-1.5 text-xs bg-transparent border border-[#383838] text-[#CECECE] px-2 py-1 rounded-lg'>
+          <File
             size={12}
             className='shrink-0'
           />
@@ -110,7 +109,7 @@ export const InterviewingJobCard = ({
 
       {/* Interview round + notes */}
       <div className='flex flex-col gap-1.5'>
-        <span className='inline-flex items-center text-sm font-semibold text-[#CECECE] bg-[#232323] px-3 py-1 rounded-lg w-fit'>
+        <span className='inline-flex items-center text-sm text-[#FFFFFF] bg-[#1F1F1F] px-3 py-1 rounded-lg w-fit'>
           {interviewRound}
         </span>
         <span className='flex items-center gap-1.5 text-xs text-[#8A8A8A]'>
@@ -123,12 +122,12 @@ export const InterviewingJobCard = ({
       </div>
 
       {/* AI news box */}
-      <div className='bg-[#1A1A1A] rounded-lg px-3 py-3 flex flex-col gap-1'>
-        <span className='text-xs text-[#8A8A8A]'>
+      <div className='bg-[#1F1F1F] rounded-lg px-3 py-3 flex flex-col gap-1'>
+        <span className='text-xs text-[#848484]'>
           Recent news about {companyName}
         </span>
         <span
-          className={`text-sm leading-snug ${sentimentColor[aiNewsSentiment]}`}>
+          className={`text-sm leading-snug text-[13px] text-[#B7B7B7] ${sentimentColor[aiNewsSentiment]}`}>
           {resolvedNews}
         </span>
       </div>

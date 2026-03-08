@@ -14,7 +14,9 @@ export const DashboardWrapper = ({
     <div className='flex flex-col gap-5'>
       <div className='px-6 pt-6 pb-4 flex items-center justify-between'>
         <div>
-          <h1 className='text-3xl font-semibold tracking-tight'>{title}</h1>
+          <h1 className='text-3xl font-semibold tracking-tight text-[#F2F2F2]'>
+            {title}
+          </h1>
           <p className='text-muted-foreground text-sm'>
             Manage your job applications and track their status.
           </p>
