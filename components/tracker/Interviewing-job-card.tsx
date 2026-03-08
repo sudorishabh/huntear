@@ -1,5 +1,4 @@
-import React from "react";
-import { MoreVertical, FileText, CornerDownRight, File } from "lucide-react";
+import { MoreVertical, CornerDownRight, File } from "lucide-react";
 import { Badge } from "../ui/badge";
 
 interface InterviewingJobCardProps {

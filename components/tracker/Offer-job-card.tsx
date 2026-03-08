@@ -1,4 +1,3 @@
-import React from "react";
 import { DollarSign, HandCoins, Rocket, File } from "lucide-react";
 import { Badge } from "../ui/badge";
 

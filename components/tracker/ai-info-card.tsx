@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Asterisk, X, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GeistMono } from "geist/font/mono";
