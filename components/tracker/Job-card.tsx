@@ -40,7 +40,7 @@ export const JobCard = ({
     demoLogos[(companyName.length + jobTitle.length) % demoLogos.length];
 
   return (
-    <div className='bg-card text-card-foreground rounded-xl p-4 flex flex-col gap-4'>
+    <div className='bg-card text-card-foreground rounded-lg p-4 flex flex-col gap-4'>
       {/* Top row */}
       <div className='flex items-center justify-between'>
         {/* <span className='text-xs font-medium bg-muted text-muted-foreground px-3 py-1 rounded-full'>

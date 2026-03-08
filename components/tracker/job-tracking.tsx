@@ -7,6 +7,8 @@ import {
   type DropResult,
 } from "@hello-pangea/dnd";
 import { JobCard } from "./job-card";
+import { AppliedJobCard } from "./Applied-job-card";
+import { InterviewingJobCard } from "./Interviewing-job-card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Share2, Plus, SlidersHorizontal, CirclePlus } from "lucide-react";
@@ -30,6 +32,16 @@ type DemoJobCard = {
   postedAgo: string;
   matchPercent: number;
   missingKeywords: string[];
+  // applied-column extras
+  appliedDate?: string;
+  location?: string;
+  resumeFile?: string;
+  aiNews?: string;
+  aiNewsSentiment?: "good" | "bad" | "neutral";
+  // interviewing-column extras
+  interviewDate?: string;
+  interviewRound?: string;
+  notes?: string;
 };
 
 const initialData: Record<string, DemoJobCard[]> = {
@@ -83,6 +95,11 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "4h",
       matchPercent: 83,
       missingKeywords: ["Amplitude", "Mixpanel", "Experiment design"],
+      appliedDate: "04/03/2026",
+      location: "San Francisco, US",
+      resumeFile: "figma_resume.pdf",
+      aiNews: "Funding: Series C ($100M) raised 3 months ago.",
+      aiNewsSentiment: "good",
     },
     {
       id: "task-5",
@@ -95,6 +112,11 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "2d",
       matchPercent: 74,
       missingKeywords: ["Snowflake", "Finance metrics", "GA4"],
+      appliedDate: "01/03/2026",
+      location: "Ottawa, Canada",
+      resumeFile: "shopify_resume.pdf",
+      aiNews: "TikTok Shop partnership announced — merchant revenues up 40%.",
+      aiNewsSentiment: "good",
     },
     {
       id: "task-6",
@@ -107,6 +129,11 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "3d",
       matchPercent: 69,
       missingKeywords: ["MLOps", "Docker", "Kubernetes"],
+      appliedDate: "28/02/2026",
+      location: "Sydney, Australia",
+      resumeFile: "atlassian_resume.pdf",
+      aiNews: "Layoffs: ~500 roles cut last month across cloud division.",
+      aiNewsSentiment: "bad",
     },
     {
       id: "task-7",
@@ -119,6 +146,11 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "4d",
       matchPercent: 80,
       missingKeywords: ["Great Expectations", "Terraform", "Datadog"],
+      appliedDate: "24/02/2026",
+      location: "Bengaluru, India",
+      resumeFile: "razorpay_resume.pdf",
+      aiNews: "Series F ($375M) closed — valuation at $7.5B, 6 months ago.",
+      aiNewsSentiment: "good",
     },
   ],
   interviewing: [
@@ -133,6 +165,13 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "5d",
       matchPercent: 88,
       missingKeywords: ["Causal inference", "Geo analysis", "ETL"],
+      interviewDate: "10/03/2026",
+      location: "Remote",
+      resumeFile: "airbnb_resume.pdf",
+      interviewRound: "Round 1",
+      notes: "Focus on product sense & SQL case study.",
+      aiNews: "Airbnb launches 'Icons' experience tier — strong Q4 bookings.",
+      aiNewsSentiment: "good",
     },
     {
       id: "task-9",
@@ -145,6 +184,13 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "1w",
       matchPercent: 76,
       missingKeywords: ["CUDA", "LLM eval", "Distributed training"],
+      interviewDate: "12/03/2026",
+      location: "Santa Clara, US",
+      resumeFile: "nvidia_resume.pdf",
+      interviewRound: "Round 2",
+      notes: "System design round — prepare GPU memory arch.",
+      aiNews: "NVIDIA H200 demand exceeds supply; revenue guidance raised 20%.",
+      aiNewsSentiment: "good",
     },
     {
       id: "task-10",
@@ -157,6 +203,14 @@ const initialData: Record<string, DemoJobCard[]> = {
       postedAgo: "1w",
       matchPercent: 73,
       missingKeywords: ["Pricing models", "Forecasting", "BigQuery"],
+      interviewDate: "14/03/2026",
+      location: "Gurugram, India",
+      resumeFile: "zomato_resume.pdf",
+      interviewRound: "Round 3",
+      notes: "Final round with VP — business case presentation.",
+      aiNews:
+        "Zomato acquires Blinkit stake raised; quick commerce up 55% YoY.",
+      aiNewsSentiment: "good",
     },
   ],
   offers: [
@@ -358,7 +412,7 @@ export const JobTracking = () => {
                   </div>
 
                   {/* Add manually button */}
-                  <button className='flex items-center justify-center gap-2 w-full rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted text-xs py-2 transition-colors mb-1'>
+                  <button className='flex items-center justify-center gap-2 w-full rounded-md border border-[#2E2E2E] text-muted-foreground hover:text-foreground hover:bg-muted text-xs py-2 transition-colors mb-1'>
                     Add job manually <CirclePlus size={15} />
                   </button>
 
@@ -374,7 +428,35 @@ export const JobTracking = () => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           className='cursor-grab mb-1.5'>
-                          <JobCard {...task} />
+                          {col.id === "applied" ? (
+                            <AppliedJobCard
+                              appliedDate={task.appliedDate}
+                              companyLogo={task.companyLogo}
+                              companyName={task.companyName}
+                              location={task.location}
+                              jobTitle={task.jobTitle}
+                              postedAgo={task.postedAgo}
+                              resumeFile={task.resumeFile}
+                              aiNews={task.aiNews}
+                              aiNewsSentiment={task.aiNewsSentiment}
+                            />
+                          ) : col.id === "interviewing" ? (
+                            <InterviewingJobCard
+                              interviewDate={task.interviewDate}
+                              companyLogo={task.companyLogo}
+                              companyName={task.companyName}
+                              location={task.location}
+                              jobTitle={task.jobTitle}
+                              postedAgo={task.postedAgo}
+                              resumeFile={task.resumeFile}
+                              interviewRound={task.interviewRound}
+                              notes={task.notes}
+                              aiNews={task.aiNews}
+                              aiNewsSentiment={task.aiNewsSentiment}
+                            />
+                          ) : (
+                            <JobCard {...task} />
+                          )}
                         </div>
                       )}
                     </Draggable>
