@@ -1,5 +1,6 @@
 import { MoreVertical, File } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { AppliedJobCardDialog } from "./applied-job-card-dialog";
 
 interface AppliedJobCardProps {
   appliedDate?: string;
@@ -55,6 +56,16 @@ export const AppliedJobCard = ({
     demoLogos[(companyName.length + jobTitle.length) % demoLogos.length];
 
   return (
+    <AppliedJobCardDialog
+      appliedDate={appliedDate}
+      companyLogo={companyLogo}
+      companyName={companyName}
+      location={location}
+      jobTitle={jobTitle}
+      resumeFile={resumeFile}
+      aiNews={aiNews}
+      aiNewsSentiment={aiNewsSentiment}
+    >
     <div className='bg-card text-card-foreground rounded-xl p-4 flex flex-col gap-4'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-2'>
@@ -114,5 +125,6 @@ export const AppliedJobCard = ({
         </span>
       </div>
     </div>
+    </AppliedJobCardDialog>
   );
 };
