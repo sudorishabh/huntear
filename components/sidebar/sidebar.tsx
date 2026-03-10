@@ -35,7 +35,7 @@ export function AppSidebar() {
           Huntear
         </span>
       </SidebarHeader>
-      <SidebarContent className='bg-black mt-6'>
+      <SidebarContent className='bg-black pt-2'>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className='gap-1'>
