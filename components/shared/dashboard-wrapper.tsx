@@ -31,10 +31,10 @@ export const DashboardWrapper = ({
             <Bell size={20} />
           </Button>
           {/* </Button> */}
-          <Button className=' bg-blue-500 hover:bg-blue-400 text-white transition-colors'>
+          <Button className=' bg-blue-500 hover:bg-blue-400 text-white transition-colors rounded-md gap-1.5 text-xs flex items-center justify-center'>
             Add Job{" "}
             <Plus
-              size={15}
+              size={12}
               strokeWidth={2.5}
             />
           </Button>
