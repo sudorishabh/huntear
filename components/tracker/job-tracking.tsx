@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   DragDropContext,
   Droppable,
@@ -355,12 +356,15 @@ export const JobTracking = () => {
       {/* ── Kanban board ── */}
       <DragDropContext onDragEnd={onDragEnd}>
         <div className='grid grid-cols-4 gap-0 flex-1 overflow-x-auto px-2 pt-4'>
-          {COLUMNS.map((col) => (
+          {COLUMNS.map((col, index) => (
             <Droppable
               droppableId={col.id}
               key={col.id}>
               {(provided) => (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.1, ease: 'easeOut' }}
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   className=' flex flex-col gap-3 px-2.5 min-h-100'>
@@ -456,7 +460,7 @@ export const JobTracking = () => {
                   ))}
 
                   {provided.placeholder}
-                </div>
+                </motion.div>
               )}
             </Droppable>
           ))}
