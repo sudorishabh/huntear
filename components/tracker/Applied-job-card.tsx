@@ -56,12 +56,13 @@ export const AppliedJobCard = ({
 
   return (
     <div className='bg-card text-card-foreground rounded-xl p-4 flex flex-col gap-4'>
-      {/* Top row */}
       <div className='flex items-center justify-between'>
-        <span className='w-2 h-2 rounded-full bg-emerald-400 shrink-0' />
-        <Badge className='bg-transparent border font-normal border-[#383838] text-[#CECECE] p-2.5 text-xs'>
-          {appliedDate}
-        </Badge>
+        <div className='flex items-center gap-2'>
+          <span className='w-2 h-2 rounded-full bg-emerald-400 shrink-0' />
+          <Badge className='bg-transparent border font-normal border-[#383838] text-[#CECECE] p-2.5 text-xs'>
+            {appliedDate}
+          </Badge>
+        </div>
         <button className='text-muted-foreground hover:text-foreground transition-colors'>
           <MoreVertical
             className='text-gray-200'
