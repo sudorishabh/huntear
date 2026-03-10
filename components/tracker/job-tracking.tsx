@@ -12,6 +12,7 @@ import { InterviewingJobCard } from "./Interviewing-job-card";
 import { OfferJobCard } from "./Offer-job-card";
 import { AIInfoCard, ReminderCard } from "./ai-info-card";
 import { AddJobDialog } from "./add-job-dialog";
+import { AnalyticsTab } from "./analytics-tab";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -32,7 +33,7 @@ const COLUMNS = [
   { id: "offers", label: "Offers" },
 ];
 
-type DemoJobCard = {
+export type DemoJobCard = {
   id: string;
   addedLabel: string;
   companyLogo: string;
@@ -299,7 +300,7 @@ export const JobTracking = () => {
   };
 
   return (
-    <div className='flex flex-col h-full'>
+    <Tabs defaultValue='overview' className='flex flex-col h-full'>
       {/* ── Top search bar ── */}
       {/* <div className='flex items-center justify-between px-6 py-3 border-b border-border'></div> */}
 
@@ -328,10 +329,6 @@ export const JobTracking = () => {
             />
           </button>
         </div>
-
-        <Tabs
-          defaultValue='overview'
-          className='w-auto h-full'>
           <TabsList className='bg-[#191919] border border-[#2E2E2E] rounded-md p-0.5 flex gap-0'>
             <TabsTrigger
               value='overview'
@@ -350,76 +347,11 @@ export const JobTracking = () => {
               </span>
             </TabsTrigger>
           </TabsList>
-          <TabsContent value='overview'>
-            {/* <Card>
-              <CardHeader>
-                <CardTitle>Overview</CardTitle>
-                <CardDescription>
-                  View your key metrics and recent project activity. Track
-                  progress across all your active projects.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className='text-sm text-muted-foreground'>
-                You have 12 active projects and 3 pending tasks.
-              </CardContent>
-            </Card> */}
-          </TabsContent>
-          <TabsContent value='analytics'>
-            {/* <Card>
-              <CardHeader>
-                <CardTitle>Analytics</CardTitle>
-                <CardDescription>
-                  Track performance and user engagement metrics. Monitor trends
-                  and identify growth opportunities.
-                  </CardDescription>
-                  </CardHeader>
-                  <CardContent className='text-sm text-muted-foreground'>
-                  Page views are up 25% compared to last month.
-                  </CardContent>
-            </Card> */}
-          </TabsContent>
-        </Tabs>
-        {/* <div className='flex items-center gap-2'>
-          <button
-            onClick={() => setActiveTab("active")}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors
-              ${
-                activeTab === "active"
-                  ? "border-foreground/40 text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}>
-            Active <span className='text-muted-foreground font-normal'>3</span>
-          </button>
-          <button
-            onClick={() => setActiveTab("archive")}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors
-              ${
-                activeTab === "archive"
-                  ? "border-foreground/40 text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}>
-            Archive{" "}
-            <span className='text-muted-foreground font-normal'>14</span>
-          </button>
-        </div> */}
-
-        {/* Action buttons */}
-        {/* <div className='flex items-center gap-2 w-60'> */}
-        {/* <button className='flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border border-border text-foreground hover:bg-muted transition-colors'>
-            Export <Share2 size={14} />
-          </button>
-          <button className='flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-cyan-500 hover:bg-cyan-400 text-black transition-colors'>
-            Add Job{" "}
-            <Plus
-              size={15}
-              strokeWidth={2.5}
-            />
-          </button> */}
-        {/* </div> */}
       </div>
 
       <Separator />
 
+      <TabsContent value='overview' className='flex-1 flex flex-col mt-0 border-0 outline-none'>
       {/* ── Kanban board ── */}
       <DragDropContext onDragEnd={onDragEnd}>
         <div className='grid grid-cols-4 gap-0 flex-1 overflow-x-auto px-2 pt-4'>
@@ -530,6 +462,11 @@ export const JobTracking = () => {
           ))}
         </div>
       </DragDropContext>
-    </div>
+      </TabsContent>
+      
+      <TabsContent value='analytics' className='flex-1 flex flex-col mt-0 border-0 outline-none p-6 overflow-y-auto'>
+        <AnalyticsTab columns={columns} />
+      </TabsContent>
+    </Tabs>
   );
 };
