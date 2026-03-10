@@ -1,5 +1,6 @@
 import { DollarSign, HandCoins, Rocket, File } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { OfferJobCardDialog } from "./offer-job-card-dialog";
 
 interface OfferJobCardProps {
   offerDate?: string;
@@ -39,6 +40,18 @@ export const OfferJobCard = ({
     demoLogos[(companyName.length + jobTitle.length) % demoLogos.length];
 
   return (
+    <OfferJobCardDialog
+      offerDate={offerDate}
+      offerStatus={offerStatus}
+      companyLogo={companyLogo}
+      companyName={companyName}
+      location={location}
+      jobTitle={jobTitle}
+      offerFile={offerFile}
+      annualCtc={annualCtc}
+      estInHand={estInHand}
+      equity={equity}
+    >
     <div className='bg-card text-card-foreground rounded-xl p-4 flex flex-col gap-4'>
       {/* Top row */}
       <div className='flex items-center justify-between'>
@@ -134,5 +147,6 @@ export const OfferJobCard = ({
         </button>
       </div>
     </div>
+    </OfferJobCardDialog>
   );
 };
