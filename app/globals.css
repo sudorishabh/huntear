@@ -126,3 +126,17 @@
     @apply font-sans;
   }
 }
+
+.dialog-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+.dialog-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dialog-scroll::-webkit-scrollbar-thumb {
+  background: #4d4d4d;
+  border-radius: 99px;
+}
+.dialog-scroll::-webkit-scrollbar-thumb:hover {
+  background: #4d4d4d;
+}

@@ -68,7 +68,7 @@ export function JobCardDialog({
       <DialogContent className='w-[900px] max-w-[95vw] sm:max-w-[95vw] p-0 gap-0 bg-[#141414] border border-[#2a2a2a] rounded-xl overflow-hidden [&>button]:hidden'>
         <div className='flex h-150 min-w-0'>
           {/* ── Left panel: Job description ── */}
-          <div className='flex-1 min-w-0 overflow-y-auto p-8 pr-6 scrollbar-thin scrollbar-thumb-[#2e2e2e]'>
+          <div className='flex-1 min-w-0 overflow-y-auto p-8 pr-6 dialog-scroll'>
             {/* Added badge */}
             <div className='inline-flex items-center gap-1.5 border border-[#2e2e2e] rounded-full px-3 py-1 text-xs text-[#CECECE] mb-6'>
               <Calendar
@@ -143,7 +143,7 @@ export function JobCardDialog({
           <div className='w-px bg-[#2a2a2a] shrink-0' />
 
           {/* ── Right panel: Properties + insights ── */}
-          <div className='w-75 shrink-0 overflow-y-auto p-6 flex flex-col gap-6'>
+          <div className='w-75 shrink-0 overflow-y-auto p-6 flex flex-col gap-6 dialog-scroll'>
             {/* Resume file pill */}
             <div className='flex justify-end'>
               <button className='flex items-center gap-1.5 border border-[#2e2e2e] rounded-md px-3 py-1.5 text-xs text-[#CECECE] hover:bg-[#242424] transition-colors'>
