@@ -355,7 +355,7 @@ export const JobTracking = () => {
       <TabsContent value='overview' className='flex-1 flex flex-col mt-0 border-0 outline-none'>
       {/* ── Kanban board ── */}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className='grid grid-cols-4 gap-0 flex-1 overflow-x-auto px-2 pt-4'>
+        <div className='grid grid-cols-4 gap-0 flex-1 overflow-x-auto px-2 pt-4 pb-8'>
           {COLUMNS.map((col, index) => (
             <Droppable
               droppableId={col.id}
