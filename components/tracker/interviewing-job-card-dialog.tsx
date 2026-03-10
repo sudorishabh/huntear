@@ -3,16 +3,24 @@
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { FileText, MapPin, RefreshCw, Sparkles } from "lucide-react";
+import {
+  FileText,
+  MapPin,
+  RefreshCw,
+  Sparkles,
+  ChevronDown,
+} from "lucide-react";
 
-interface AppliedJobCardDialogProps {
+interface InterviewingJobCardDialogProps {
   children: React.ReactNode;
-  appliedDate?: string;
+  interviewDate?: string;
   companyLogo?: string;
   companyName?: string;
   location?: string;
   jobTitle?: string;
   resumeFile?: string;
+  interviewRound?: string;
+  notes?: string;
   aiNews?: string;
   aiNewsSentiment?: "good" | "bad" | "neutral";
 }
@@ -41,30 +49,36 @@ const DEMO_QUALIFICATIONS = [
   "Basic understanding of databases and APIs",
 ];
 
-const DEMO_NEWS: Record<string, string[]> = {
-  default: [
-    "About one-third of customer support in the U.S. and Canada is now handled by AI, with global rollout plans.",
-    "The company appointed a former Big Tech AI leader as Chief Technology Officer, underscoring its AI focus.",
-    "Offering incentives (up to ~$750–$1,000 USD) to new hires in key cities to meet surging demand.",
-  ],
-};
+const DEMO_NEWS = [
+  "About one-third of customer support in the U.S. and Canada is now handled by AI, with global rollout plans.",
+  "The company appointed a former Big Tech AI leader as Chief Technology Officer, underscoring its AI focus.",
+  "Offering incentives (up to ~$750–$1,000 USD) to new hires in key cities to meet surging demand.",
+];
 
-function getCompanyNews(companyName: string, aiNews?: string): string[] {
-  if (aiNews) return [aiNews];
-  return DEMO_NEWS.default;
-}
+const SUGGESTED_NOTES = [
+  "Focus on system design principles and scalability trade-offs.",
+  "Prepare SQL case study with optimisation examples.",
+  "Review behavioural questions around cross-functional collaboration.",
+  "Brush up on product metrics and A/B testing frameworks.",
+];
 
-export function AppliedJobCardDialog({
+export function InterviewingJobCardDialog({
   children,
-  appliedDate = "18/02/2026",
+  interviewDate = "23/03/26",
   companyLogo,
   companyName = "Company",
   location = "Remote",
   jobTitle = "Job Title",
   resumeFile = "resume.pdf",
+  interviewRound = "Round 1",
+  notes,
   aiNews,
   aiNewsSentiment = "neutral",
-}: AppliedJobCardDialogProps) {
+}: InterviewingJobCardDialogProps) {
+  const [descOpen, setDescOpen] = useState(false);
+  const [noteText, setNoteText] = useState(notes ?? "");
+  const [suggesting, setSuggesting] = useState(false);
+
   const [generating, setGenerating] = useState(false);
   const [news, setNews] = useState<string[]>([]);
 
@@ -72,12 +86,18 @@ export function AppliedJobCardDialog({
     demoLogos[(companyName.length + jobTitle.length) % demoLogos.length];
   const logoSrc = companyLogo || fallbackLogo;
 
+  const today = new Date().toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  });
+
   const loadNews = () => {
     setGenerating(true);
     setNews([]);
     setTimeout(() => {
       setGenerating(false);
-      setNews(getCompanyNews(companyName, aiNews));
+      setNews(aiNews ? [aiNews] : DEMO_NEWS);
     }, 1400);
   };
 
@@ -86,6 +106,18 @@ export function AppliedJobCardDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [companyName, aiNews]);
 
+  const handleSuggest = () => {
+    setSuggesting(true);
+    setTimeout(() => {
+      setSuggesting(false);
+      const suggestion =
+        SUGGESTED_NOTES[
+          (companyName.length + jobTitle.length) % SUGGESTED_NOTES.length
+        ];
+      setNoteText(suggestion);
+    }, 900);
+  };
+
   const sentimentDot =
     aiNewsSentiment === "good"
       ? "bg-emerald-400"
@@ -93,17 +125,25 @@ export function AppliedJobCardDialog({
         ? "bg-red-400"
         : "bg-[#8A8A8A]";
 
+  const roundLabel = interviewRound?.toLowerCase().includes("1")
+    ? "First"
+    : interviewRound?.toLowerCase().includes("2")
+      ? "Second"
+      : interviewRound?.toLowerCase().includes("3")
+        ? "Third"
+        : (interviewRound ?? "First");
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='w-[900px] max-w-[95vw] sm:max-w-[95vw] p-0 gap-0 bg-[#141414] border border-[#2a2a2a] rounded-xl overflow-hidden [&>button]:hidden'>
         <div className='flex h-150 min-w-0'>
-          {/* ── Left panel: Job description ── */}
+          {/* ── Left panel ── */}
           <div className='flex-1 min-w-0 overflow-y-auto p-8 pr-6 dialog-scroll'>
-            {/* Applied badge */}
+            {/* Interview date badge */}
             <div className='inline-flex items-center gap-1.5 border border-[#2e2e2e] rounded-full px-3 py-1 text-xs text-[#CECECE] mb-6'>
-              <span className='w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0' />
-              Applied {appliedDate}
+              <span className='w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0' />
+              Interview {interviewDate}
             </div>
 
             {/* Company + logo */}
@@ -134,40 +174,101 @@ export function AppliedJobCardDialog({
 
             <Separator className='bg-[#2a2a2a] mb-5' />
 
-            {/* Description */}
-            <p className='text-sm text-[#C0C0C0] leading-relaxed mb-5'>
-              {DEMO_DESCRIPTION}
-            </p>
+            {/* Job Description accordion */}
+            <div className='border border-[#2a2a2a] rounded-lg mb-6 overflow-hidden'>
+              <button
+                onClick={() => setDescOpen((v) => !v)}
+                className='w-full flex items-center justify-between px-4 py-3 text-sm text-[#CECECE] hover:bg-[#1c1c1c] transition-colors'>
+                <span className='flex items-center gap-2'>
+                  Job Description
+                  <ChevronDown
+                    size={14}
+                    className={`text-[#8A8A8A] transition-transform duration-200 ${descOpen ? "rotate-180" : ""}`}
+                  />
+                </span>
+                <span className='text-xs border border-[#2e2e2e] rounded px-2 py-0.5 text-[#CECECE]'>
+                  {roundLabel} round
+                </span>
+              </button>
 
-            {/* Responsibilities */}
-            <p className='text-sm text-[#FFFFFF] font-medium mb-2'>
-              Key Responsibilities
-            </p>
-            <ul className='space-y-1.5 mb-5'>
-              {DEMO_RESPONSIBILITIES.map((item) => (
-                <li
-                  key={item}
-                  className='flex items-start gap-2 text-sm text-[#C0C0C0]'>
-                  <span className='mt-1.5 w-1 h-1 rounded-full bg-[#8A8A8A] shrink-0' />
-                  {item}
-                </li>
-              ))}
-            </ul>
+              {descOpen && (
+                <div className='px-4 pb-4 pt-1 border-t border-[#2a2a2a]'>
+                  <p className='text-sm text-[#C0C0C0] leading-relaxed mb-4'>
+                    {DEMO_DESCRIPTION}
+                  </p>
+                  <p className='text-sm text-[#FFFFFF] font-medium mb-2'>
+                    Key Responsibilities
+                  </p>
+                  <ul className='space-y-1.5 mb-4'>
+                    {DEMO_RESPONSIBILITIES.map((item) => (
+                      <li
+                        key={item}
+                        className='flex items-start gap-2 text-sm text-[#C0C0C0]'>
+                        <span className='mt-1.5 w-1 h-1 rounded-full bg-[#8A8A8A] shrink-0' />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className='text-sm text-[#FFFFFF] font-medium mb-2'>
+                    Qualifications
+                  </p>
+                  <ul className='space-y-1.5'>
+                    {DEMO_QUALIFICATIONS.map((item) => (
+                      <li
+                        key={item}
+                        className='flex items-start gap-2 text-sm text-[#C0C0C0]'>
+                        <span className='mt-1.5 w-1 h-1 rounded-full bg-[#8A8A8A] shrink-0' />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
 
-            {/* Qualifications */}
-            <p className='text-sm text-[#FFFFFF] font-medium mb-2'>
-              Qualifications
-            </p>
-            <ul className='space-y-1.5'>
-              {DEMO_QUALIFICATIONS.map((item) => (
-                <li
-                  key={item}
-                  className='flex items-start gap-2 text-sm text-[#C0C0C0]'>
-                  <span className='mt-1.5 w-1 h-1 rounded-full bg-[#8A8A8A] shrink-0' />
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {/* Notes section */}
+            <p className='text-sm text-[#FFFFFF] font-medium mb-3'>Notes:</p>
+
+            <div className='border border-[#2a2a2a] rounded-lg overflow-hidden'>
+              {/* Meta row */}
+              <div className='flex items-center gap-4 px-4 py-2.5 border-b border-[#2a2a2a] flex-wrap'>
+                <span className='inline-flex items-center gap-1.5 border border-[#2e2e2e] rounded-full px-2.5 py-0.5 text-xs text-[#CECECE]'>
+                  <span className='text-[#8A8A8A]'>Round:</span> {roundLabel}
+                </span>
+                <span className='text-xs text-[#8A8A8A]'>
+                  <span className='text-[#CECECE]'>Interview date:</span>{" "}
+                  {interviewDate}
+                </span>
+                <span className='text-xs text-[#8A8A8A]'>
+                  <span className='text-[#CECECE]'>Last modified:</span> {today}
+                </span>
+              </div>
+
+              {/* AI suggest row */}
+              <div className='flex items-center justify-between px-4 py-2.5 border-b border-[#2a2a2a]'>
+                <div className='flex items-center gap-2 text-xs text-[#8A8A8A] font-mono'>
+                  <Sparkles
+                    size={12}
+                    className={`text-cyan-400 ${suggesting ? "animate-pulse" : ""}`}
+                  />
+                  Suggest main idea from overall notes
+                </div>
+                <button
+                  onClick={handleSuggest}
+                  disabled={suggesting}
+                  className='text-xs bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white px-3 py-1 rounded transition-colors'>
+                  {suggesting ? "Thinking..." : "Suggest"}
+                </button>
+              </div>
+
+              {/* Textarea */}
+              <textarea
+                value={noteText}
+                onChange={(e) => setNoteText(e.target.value)}
+                placeholder='"Jot down your questions for the interviewer, or summarize how it went…"'
+                className='w-full bg-transparent text-sm text-[#C0C0C0] placeholder:text-[#555555] placeholder:italic px-4 py-3 resize-none outline-none min-h-28'
+              />
+            </div>
           </div>
 
           {/* ── Vertical divider ── */}
@@ -195,18 +296,30 @@ export function AppliedJobCardDialog({
                     <span
                       className={`w-1.5 h-1.5 rounded-full ${sentimentDot}`}
                     />
-                    Applied
+                    Interviewing
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>
-                  <span className='text-[#8A8A8A]'>Applied on</span>
+                  <span className='text-[#8A8A8A]'>Priority</span>
                   <span className='border border-[#2e2e2e] rounded-full px-2.5 py-0.5 text-xs text-[#CECECE]'>
-                    {appliedDate}
+                    High
                   </span>
                 </div>
                 <div className='flex items-center justify-between'>
-                  <span className='text-[#8A8A8A]'>Location</span>
-                  <span className='text-xs text-[#CECECE]'>{location}</span>
+                  <span className='text-[#8A8A8A]'>Target date</span>
+                  <span className='border border-[#2e2e2e] rounded-full px-2.5 py-0.5 text-xs text-[#CECECE]'>
+                    {interviewDate}
+                  </span>
+                </div>
+                <div className='flex items-center justify-between'>
+                  <span className='text-[#8A8A8A]'>Labels</span>
+                  <span className='text-xs text-[#CECECE]'>Important</span>
+                </div>
+                <div className='flex items-center justify-between'>
+                  <span className='text-[#8A8A8A]'>Round</span>
+                  <span className='border border-[#2e2e2e] rounded-full px-2.5 py-0.5 text-xs text-[#CECECE]'>
+                    {roundLabel}
+                  </span>
                 </div>
               </div>
             </div>
@@ -222,7 +335,6 @@ export function AppliedJobCardDialog({
                 Know company better before going in it.
               </p>
 
-              {/* Generating row */}
               <div className='flex items-center justify-between mb-3'>
                 <div className='flex items-center gap-2 text-xs text-[#8A8A8A] font-mono'>
                   <Sparkles
@@ -242,7 +354,6 @@ export function AppliedJobCardDialog({
                 </button>
               </div>
 
-              {/* News bullets */}
               {!generating && news.length > 0 && (
                 <ul className='space-y-3'>
                   {news.map((item, i) => (
