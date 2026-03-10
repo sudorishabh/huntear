@@ -44,7 +44,7 @@ export function AddJobDialog({
 
         <div className="flex flex-1 overflow-hidden h-full">
           {/* Left Sidebar */}
-          <div className="w-[180px] bg-[#161616] border-r border-[#2E2E2E] flex flex-col py-2 shrink-0">
+          <div className="w-[180px] bg-[#161616] border-r border-[#2E2E2E] flex flex-col py-2 shrink-0 overflow-y-auto dialog-scroll">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
@@ -63,7 +63,7 @@ export function AddJobDialog({
 
           {/* Right Content */}
           <div className="flex-1 flex flex-col bg-[#0A0A0A]">
-            <div className="flex-1 overflow-y-auto px-6 py-5">
+            <div className="flex-1 overflow-y-auto px-6 py-5 dialog-scroll">
               <h3 className="text-[15px] font-medium mb-5">Select filter</h3>
 
               <div className="space-y-6">
