@@ -11,6 +11,7 @@ import { AppliedJobCard } from "./Applied-job-card";
 import { InterviewingJobCard } from "./Interviewing-job-card";
 import { OfferJobCard } from "./Offer-job-card";
 import { AIInfoCard, ReminderCard } from "./ai-info-card";
+import { AddJobDialog } from "./add-job-dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -442,9 +443,11 @@ export const JobTracking = () => {
                   </div>
 
                   {/* Add manually button */}
-                  <button className='flex items-center justify-center gap-2 w-full rounded-md border border-[#2E2E2E] text-muted-foreground hover:text-foreground hover:bg-muted text-xs py-2 transition-colors mb-1'>
-                    Add job manually <CirclePlus size={15} />
-                  </button>
+                  <AddJobDialog defaultTab={col.id}>
+                    <button className='flex items-center justify-center gap-2 w-full rounded-md border border-[#2E2E2E] text-muted-foreground hover:text-foreground hover:bg-muted text-xs py-2 transition-colors mb-1'>
+                      Add job manually <CirclePlus size={15} />
+                    </button>
+                  </AddJobDialog>
 
                   {/* Reminder Card for applied column */}
                   {col.id === "applied" && <ReminderCard />}
