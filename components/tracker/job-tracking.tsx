@@ -13,7 +13,14 @@ import { OfferJobCard } from "./Offer-job-card";
 import { AIInfoCard, ReminderCard } from "./ai-info-card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Share2, Plus, SlidersHorizontal, CirclePlus } from "lucide-react";
+import {
+  Share2,
+  Plus,
+  SlidersHorizontal,
+  CirclePlus,
+  Search,
+  ChevronDown,
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "../ui/button";
 
@@ -298,32 +305,52 @@ export const JobTracking = () => {
       {/* ── Page title ── */}
 
       {/* ── Tabs + Action buttons ── */}
-      <div className='flex items-center justify-between px-6 pb-4'>
+      <div className='flex items-center justify-between px-4 pb-4'>
         {/* Tabs */}
         <div className='flex items-center gap-2'>
-          <Tabs
-            defaultValue='overview'
-            className='w-60'>
-            <TabsList className='bg-transparent flex gap-2'>
-              <TabsTrigger
-                value='overview'
-                className='p-4 border-0 bg-[#191919] text-xs text-[#CFCFCF]'>
-                Overview
-                <span className='bg-gray-800 rounded-full size-5 flex items-center justify-center border text-[11px]'>
-                  12
-                </span>
-              </TabsTrigger>
-              <TabsTrigger
-                value='analytics'
-                className='p-4 border-0 bg-[#191919] text-xs text-[#CFCFCF]'>
-                Analytics
-                <span className='bg-gray-800 rounded-full size-5 flex items-center justify-center border text-[11px]'>
-                  3
-                </span>
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value='overview'>
-              {/* <Card>
+          <div className='relative'>
+            <Search
+              size={13}
+              className='absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none'
+            />
+            <Input
+              placeholder='Search jobs...'
+              className='h-9 pl-8 pr-4 w-56 text-sm bg-[#191919] border-[#2E2E2E] focus-visible:ring-0 focus-visible:border-border placeholder:text-muted-foreground/50'
+            />
+          </div>
+          <button className='flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#2E2E2E] text-muted-foreground hover:text-foreground hover:bg-[#242424] text-xs transition-colors'>
+            <SlidersHorizontal size={13} />
+            Filters
+            <ChevronDown
+              size={12}
+              className='ml-0.5 opacity-60'
+            />
+          </button>
+        </div>
+
+        <Tabs
+          defaultValue='overview'
+          className='w-auto h-full'>
+          <TabsList className='bg-[#191919] border border-[#2E2E2E] rounded-md p-0.5 flex gap-0'>
+            <TabsTrigger
+              value='overview'
+              className='flex items-center gap-1.5 px-3 h-7 text-xs text-muted-foreground rounded-sm data-[state=active]:bg-[#2E2E2E] data-[state=active]:text-foreground transition-colors'>
+              Overview
+              <span className='bg-[#2a2a2a] data-[state=active]:bg-[#383838] rounded px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground border border-[#3a3a3a]'>
+                12
+              </span>
+            </TabsTrigger>
+            <TabsTrigger
+              value='analytics'
+              className='flex items-center gap-1.5 px-3 h-7 text-xs text-muted-foreground rounded-sm data-[state=active]:bg-[#2E2E2E] data-[state=active]:text-foreground transition-colors'>
+              Analytics
+              <span className='bg-[#2a2a2a] rounded px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground border border-[#3a3a3a]'>
+                3
+              </span>
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value='overview'>
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Overview</CardTitle>
                 <CardDescription>
@@ -335,9 +362,9 @@ export const JobTracking = () => {
                 You have 12 active projects and 3 pending tasks.
               </CardContent>
             </Card> */}
-            </TabsContent>
-            <TabsContent value='analytics'>
-              {/* <Card>
+          </TabsContent>
+          <TabsContent value='analytics'>
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Analytics</CardTitle>
                 <CardDescription>
@@ -349,18 +376,8 @@ export const JobTracking = () => {
                   Page views are up 25% compared to last month.
                   </CardContent>
             </Card> */}
-            </TabsContent>
-          </Tabs>
-          <div className='w-48 flex items-center gap-2'>
-            <Input
-              placeholder='Type/search...'
-              className='h-9 border px-4 text-sm'
-            />
-            <button className='p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors'>
-              <SlidersHorizontal size={16} />
-            </button>
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
         {/* <div className='flex items-center gap-2'>
           <button
             onClick={() => setActiveTab("active")}
@@ -386,8 +403,8 @@ export const JobTracking = () => {
         </div> */}
 
         {/* Action buttons */}
-        <div className='flex items-center gap-2 w-60'>
-          {/* <button className='flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border border-border text-foreground hover:bg-muted transition-colors'>
+        {/* <div className='flex items-center gap-2 w-60'> */}
+        {/* <button className='flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border border-border text-foreground hover:bg-muted transition-colors'>
             Export <Share2 size={14} />
           </button>
           <button className='flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-cyan-500 hover:bg-cyan-400 text-black transition-colors'>
@@ -397,17 +414,7 @@ export const JobTracking = () => {
               strokeWidth={2.5}
             />
           </button> */}
-          <Button variant='outline'>
-            Export <Share2 size={14} />
-          </Button>
-          <Button className=' bg-blue-500 hover:bg-blue-400 text-white transition-colors'>
-            Add Job{" "}
-            <Plus
-              size={15}
-              strokeWidth={2.5}
-            />
-          </Button>
-        </div>
+        {/* </div> */}
       </div>
 
       <Separator />

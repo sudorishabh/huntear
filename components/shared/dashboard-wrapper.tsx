@@ -1,5 +1,6 @@
-import { Bell } from "lucide-react";
+import { Bell, Plus, Share2 } from "lucide-react";
 import React from "react";
+import { Button } from "../ui/button";
 
 interface dashboardWrapperProps {
   children: React.ReactNode;
@@ -22,16 +23,29 @@ export const DashboardWrapper = ({
           </p>
         </div>
         <div className='flex items-center gap-4'>
-          <button className='text-muted-foreground hover:text-foreground transition-colors'>
+          <Button variant='outline'>
+            {/* Export  */}
+            <Share2 size={14} />
+          </Button>
+          <Button variant='outline'>
             <Bell size={20} />
-          </button>
-          <div className='w-9 h-9 rounded-full bg-muted overflow-hidden ring-2 ring-border'>
+          </Button>
+          {/* </Button> */}
+          <Button className=' bg-blue-500 hover:bg-blue-400 text-white transition-colors'>
+            Add Job{" "}
+            <Plus
+              size={15}
+              strokeWidth={2.5}
+            />
+          </Button>
+
+          {/* <div className='w-9 h-9 rounded-full bg-muted overflow-hidden ring-2 ring-border'>
             <img
               src='https://i.pravatar.cc/36'
               alt='avatar'
               className='w-full h-full object-cover'
             />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className=''>{children}</div>
