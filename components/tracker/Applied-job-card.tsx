@@ -91,14 +91,14 @@ export const AppliedJobCard = ({
             />
           </div>
           <div className='flex flex-col'>
-            <span className='text-[#FFFFFF] font-medium'>{companyName}</span>
+            <span className='text-[#FFFFFF] font-semibold'>{companyName}</span>
             <span className='text-[13px] text-[#B3B3B3]'>{location}</span>
           </div>
         </div>
 
         {/* Job title & posted */}
         <div className='flex flex-col gap-0.5'>
-          <span className='text-[#FFFFFF] text-sm'>{jobTitle}</span>
+          <span className='text-[#9B9B9B] text-sm font-medium'>{jobTitle}</span>
           <span className='text-xs text-muted-foreground'>{postedAgo}</span>
         </div>
 

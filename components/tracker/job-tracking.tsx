@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   DragDropContext,
@@ -274,8 +274,15 @@ const initialData: Record<string, DemoJobCard[]> = {
   ],
 };
 
+let hasAnimated = false;
+
 export const JobTracking = () => {
   const [columns, setColumns] = useState(initialData);
+  const [shouldAnimate] = useState(!hasAnimated);
+
+  useEffect(() => {
+    hasAnimated = true;
+  }, []);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -362,7 +369,7 @@ export const JobTracking = () => {
               key={col.id}>
               {(provided) => (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1, ease: 'easeOut' }}
                   {...provided.droppableProps}
